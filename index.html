@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <title>AgroPerícias MT | Avaliações, georreferenciamento e perícias rurais</title>
+  <meta name="description" content="Engenharia de avaliações, georreferenciamento e perícias para o agronegócio em todo o Mato Grosso. Laudos com ART.">
+  <link rel="icon" href="favicon/favicon.ico" sizes="any">
+  <link rel="icon" href="favicon/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png">
+  <meta name="theme-color" content="#1E3A2F">
+  <meta property="og:title" content="AgroPerícias MT">
+  <meta property="og:description" content="Avaliações, georreferenciamento e perícias rurais em todo o Mato Grosso.">
+  <meta property="og:image" content="https://agropericiasmt.com.br/redes/compartilhamento-1200x630.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    html{scroll-behavior:smooth}
+    body{margin:0;background:#F7F3EA;color:#2B2B2B;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+    a{color:#1E3A2F}
+    a:hover{color:#8A6408}
+  </style>
+</helmet>
+<div style="min-height:100vh;background:#F7F3EA">
+  <dc-import name="Cabecalho" ativo="home" hint-size="100%,73px"></dc-import>
+
+  <section style="max-width:1240px;margin:0 auto;padding:40px 28px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:24px;align-items:center">
+    <div style="display:flex;flex-direction:column;gap:26px;padding:24px 0">
+      <span style="display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8A6408;font-weight:600"><span style="width:32px;height:2px;background:#B8860B"></span>Engenharia rural em Mato Grosso</span>
+      <h1 style="margin:0;font-family:Fraunces,Georgia,serif;font-weight:500;font-size:clamp(40px,5.4vw,66px);line-height:1.04;letter-spacing:-0.01em;color:#1E3A2F;text-wrap:balance">Laudos técnicos para decisões sobre a terra</h1>
+      <p style="margin:0;font-size:18px;line-height:1.65;color:#3D3D3D;max-width:520px;text-wrap:pretty">Avaliamos imóveis rurais, regularizamos propriedades no SIGEF e no CAR e realizamos perícias judiciais e agronômicas em todo o estado, com vistoria em campo, drone e ART em todos os trabalhos.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px">
+        <a href="#contato" style="background:#1E3A2F;color:#F7F3EA;text-decoration:none;font-size:15px;font-weight:500;padding:16px 24px;border-radius:4px" style-hover="background:#2B4F3F;color:#F7F3EA">Solicitar proposta</a>
+        <a href="#servicos" style="border:1px solid #1E3A2F;color:#1E3A2F;text-decoration:none;font-size:15px;font-weight:500;padding:15px 22px;border-radius:4px" style-hover="background:#EFE9DC;color:#1E3A2F">Conhecer os serviços</a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px 28px;padding-top:18px;border-top:1px solid #E2DCCD;font-size:14px;color:#4A4A4A">
+        <span><strong style="color:#1E3A2F;font-weight:600">NBR 14653</strong> em avaliações</span>
+        <span><strong style="color:#1E3A2F;font-weight:600">SIGEF</strong> e CAR</span>
+        <span><strong style="color:#1E3A2F;font-weight:600">ART</strong> em todos os laudos</span>
+      </div>
+    </div>
+    <div style="position:relative;height:clamp(420px,56vw,640px);min-width:0">
+      <iframe src="Hero 3D Terreno.html?embed=1" title="Modelo 3D de lavoura com talhões e curvas de nível" style="position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#F7F3EA"></iframe>
+      <span style="position:absolute;right:8px;bottom:8px;font-size:12px;color:#6B6658;letter-spacing:0.02em;pointer-events:none">Arraste para girar o terreno</span>
+    </div>
+  </section>
+
+  <section style="border-top:1px solid #E2DCCD;border-bottom:1px solid #E2DCCD;background:#EFE9DC">
+    <div style="max-width:1240px;margin:0 auto;padding:22px 28px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 36px;font-size:14px;color:#3D3D3D">
+      <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8A6408;font-weight:600">Atendemos</span>
+      <span>Produtores rurais</span>
+      <span>Bancos e cooperativas de crédito</span>
+      <span>Varas judiciais e escritórios de advocacia</span>
+      <span>Seguradoras</span>
+      <span>Investidores e incorporadoras</span>
+    </div>
+  </section>
+
+  <section id="servicos" style="max-width:1240px;margin:0 auto;padding:104px 28px 96px;display:flex;flex-direction:column;gap:48px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:24px 56px;align-items:end">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8A6408;font-weight:600">Serviços</span>
+        <h2 style="margin:0;font-family:Fraunces,Georgia,serif;font-weight:500;font-size:clamp(32px,4vw,46px);line-height:1.1;color:#1E3A2F;text-wrap:balance">Quatro frentes técnicas, uma mesma responsabilidade</h2>
+      </div>
+      <p style="margin:0;font-size:17px;line-height:1.65;color:#3D3D3D;text-wrap:pretty">Cada trabalho é conduzido por engenheiros com experiência em campo e assinado com ART. Os laudos seguem as normas da ABNT, os manuais do INCRA e o Código de Processo Civil.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:16px">
+      <sc-for list="{{ servicos }}" as="s" hint-placeholder-count="4">
+        <a href="{{ s.href }}" style="position:relative;overflow:hidden;min-height:440px;border-radius:6px;background:#1E3A2F;text-decoration:none;color:#F7F3EA;display:flex" style-hover="color:#F7F3EA;box-shadow:0 0 0 2px #B8860B">
+          <img src="{{ s.img }}" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ s.pos }};opacity:0.55">
+          <span style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,41,31,0.35) 0%,rgba(22,41,31,0.82) 55%,rgba(22,41,31,0.95) 100%)"></span>
+          <span style="position:relative;display:flex;flex-direction:column;gap:14px;padding:28px 26px 30px;width:100%">
+            <span style="font-size:13px;font-weight:600;color:#D9A92E;letter-spacing:0.08em">{{ s.num }}</span>
+            <span style="margin-top:auto;font-family:Fraunces,Georgia,serif;font-weight:500;font-size:clamp(20px,1.9vw,25px);line-height:1.2;color:#F7F3EA;overflow-wrap:anywhere;hyphens:auto" lang="pt-BR">{{ s.titulo }}</span>
+            <span style="font-size:15px;line-height:1.6;color:#E4DED0;text-wrap:pretty">{{ s.texto }}</span>
+            <span style="display:flex;align-items:center;gap:10px;padding-top:8px;font-size:14px;font-weight:600;color:#D9A92E"><span style="width:24px;height:1px;background:#D9A92E"></span>Conhecer o serviço</span>
+          </span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="background:#EFE9DC;border-top:1px solid #E2DCCD;border-bottom:1px solid #E2DCCD">
+    <div style="max-width:1240px;margin:0 auto;padding:96px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px 72px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:22px">
+        <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8A6408;font-weight:600">Redução do ITR</span>
+        <h2 style="margin:0;font-family:Fraunces,Georgia,serif;font-weight:500;font-size:clamp(32px,4vw,46px);line-height:1.1;color:#1E3A2F;text-wrap:balance">Muitos imóveis pagam ITR acima do devido</h2>
+        <p style="margin:0;font-size:17px;line-height:1.65;color:#3D3D3D;text-wrap:pretty">O imposto depende de dois números: o valor da terra nua e a área tributável. Quando um deles está errado na declaração, o produtor paga mais do que deveria. Revisamos os dois com base técnica e documentação que sustenta a declaração perante a Receita Federal.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;padding-top:4px">
+          <a href="#contato" style="background:#1E3A2F;color:#F7F3EA;text-decoration:none;font-size:15px;font-weight:500;padding:16px 24px;border-radius:4px" style-hover="background:#2B4F3F;color:#F7F3EA">Solicitar análise do ITR</a>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;border-top:1px solid #1E3A2F">
+        <a href="Avaliacao-Rural.dc.html" style="display:grid;grid-template-columns:56px 1fr;gap:6px 16px;padding:26px 0;border-bottom:1px solid #DCD4C1;text-decoration:none;color:#2B2B2B" style-hover="color:#2B2B2B;border-bottom-color:#B8860B">
+          <span style="grid-row:span 2;font-family:Fraunces,Georgia,serif;font-size:30px;line-height:1;color:#B8860B">01</span>
+          <span style="font-size:18px;font-weight:600;color:#1E3A2F">Valor da terra nua</span>
+          <span style="font-size:15px;line-height:1.6;color:#4A4A4A;text-wrap:pretty">Laudo de avaliação conforme a NBR 14653-3 para comprovar o valor real de mercado quando o valor arbitrado está acima dele.</span>
+        </a>
+        <a href="Georreferenciamento.dc.html" style="display:grid;grid-template-columns:56px 1fr;gap:6px 16px;padding:26px 0;border-bottom:1px solid #DCD4C1;text-decoration:none;color:#2B2B2B" style-hover="color:#2B2B2B;border-bottom-color:#B8860B">
+          <span style="grid-row:span 2;font-family:Fraunces,Georgia,serif;font-size:30px;line-height:1;color:#B8860B">02</span>
+          <span style="font-size:18px;font-weight:600;color:#1E3A2F">Áreas não tributáveis</span>
+          <span style="font-size:15px;line-height:1.6;color:#4A4A4A;text-wrap:pretty">Delimitação de APP, reserva legal e áreas de interesse ecológico, coerente com o CAR e o SIGEF, para excluí-las da área tributável.</span>
+        </a>
+        <div style="display:grid;grid-template-columns:56px 1fr;gap:6px 16px;padding:26px 0;border-bottom:1px solid #DCD4C1">
+          <span style="grid-row:span 2;font-family:Fraunces,Georgia,serif;font-size:30px;line-height:1;color:#B8860B">03</span>
+          <span style="font-size:18px;font-weight:600;color:#1E3A2F">Grau de utilização</span>
+          <span style="font-size:15px;line-height:1.6;color:#4A4A4A;text-wrap:pretty">Levantamento do uso efetivo do imóvel, que define a alíquota aplicada sobre o valor tributável.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:#1E3A2F;color:#F7F3EA">
+    <div style="max-width:1240px;margin:0 auto;padding:96px 28px;display:flex;flex-direction:column;gap:56px">
+      <div style="display:flex;flex-direction:column;gap:16px;max-width:720px">
+        <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#D9A92E;font-weight:600">Como trabalhamos</span>
+        <h2 style="margin:0;font-family:Fraunces,Georgia,serif;font-weight:500;font-size:clamp(32px,4vw,46px);line-height:1.1;color:#F7F3EA;text-wrap:balance">Do documento ao campo, do campo ao laudo</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:40px">
+        <sc-for list="{{ etapas }}" as="e" hint-placeholder-count="4">
+          <div style="display:flex;flex-direction:column;gap:14px;padding-top:22px;border-top:1px solid rgba(217,169,46,0.55)">
+            <span style="font-family:Fraunces,Georgia,serif;font-size:34px;color:#D9A92E;line-height:1">{{ e.num }}</span>
+            <h3 style="margin:0;font-size:18px;font-weight:600;color:#F7F3EA">{{ e.titulo }}</h3>
+            <p style="margin:0;font-size:15px;line-height:1.6;color:#D9D3C4;text-wrap:pretty">{{ e.texto }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:1240px;margin:0 auto;padding:104px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:56px;align-items:center">
+    <div style="position:relative;aspect-ratio:4/3;border-radius:6px;overflow:hidden;background:#1E3A2F">
+      <img src="img/lavouras-aereo.jpg" alt="Vista aérea de lavouras, pastagens e faixas de vegetação" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 70%">
+    </div>
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8A6408;font-weight:600">Atuação</span>
+      <h2 style="margin:0;font-family:Fraunces,Georgia,serif;font-weight:500;font-size:clamp(32px,4vw,46px);line-height:1.1;color:#1E3A2F;text-wrap:balance">Presentes em todas as regiões produtoras do estado</h2>
+      <p style="margin:0;font-size:17px;line-height:1.65;color:#3D3D3D;text-wrap:pretty">Conhecemos a dinâmica do mercado de terras em cada polo do Mato Grosso. Essa leitura regional sustenta avaliações coerentes e perícias bem fundamentadas.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border-top:1px solid #E2DCCD">
+        <sc-for list="{{ regioes }}" as="r" hint-placeholder-count="6">
+          <div style="display:flex;flex-direction:column;gap:2px;padding:14px 0;border-bottom:1px solid #E2DCCD">
+            <span style="font-size:15px;font-weight:600;color:#1E3A2F">{{ r.nome }}</span>
+            <span style="font-size:13px;color:#5A5A5A">{{ r.cidades }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <dc-import name="Contato" servico="avaliacao" hint-size="100%,760px"></dc-import>
+  <dc-import name="Rodape" hint-size="100%,340px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      servicos: [
+        { num: '01', titulo: 'Avaliação de imóveis rurais', texto: 'Valor de mercado de fazendas, glebas e benfeitorias conforme a NBR 14653-3, para crédito, venda, partilha, desapropriação e ITR.', href: 'Avaliacao-Rural.dc.html', img: 'img/avaliacao-rural-drone.jpg', pos: '60% center' },
+        { num: '02', titulo: 'Georreferenciamento e regularização', texto: 'Certificação no SIGEF, CAR, PRA, usucapião e regularização fundiária, com apuração das áreas não tributáveis do ITR.', href: 'Georreferenciamento.dc.html', img: 'img/georreferenciamento.png', pos: 'center' },
+        { num: '03', titulo: 'Perícia judicial agrária', texto: 'Atuação como peritos do juízo e assistentes técnicos em ações possessórias, divisórias, de usucapião e indenizatórias.', href: 'Pericia-Judicial.dc.html', img: 'img/pericia-judicial.png', pos: '20% center' },
+        { num: '04', titulo: 'Perícia agronômica e de safra', texto: 'Quantificação de perdas de produção e danos em lavouras para seguro rural, Proagro e prorrogação de crédito.', href: 'Pericia-Agronomica.dc.html', img: 'img/pericia-agronomica.png', pos: 'center 60%' },
+      ],
+      etapas: [
+        { num: '01', titulo: 'Análise documental', texto: 'Estudamos matrícula, CAR, CCIR, certificações e autos, quando houver, para definir o escopo correto.' },
+        { num: '02', titulo: 'Vistoria em campo', texto: 'Percorremos o imóvel com receptores GNSS e drone, registrando solos, uso atual, benfeitorias e divisas.' },
+        { num: '03', titulo: 'Análise técnica', texto: 'Tratamos os dados de mercado, imagens e medições com metodologia declarada e rastreável.' },
+        { num: '04', titulo: 'Laudo com ART', texto: 'Entregamos o laudo assinado, com ART registrada, e nos colocamos à disposição para esclarecimentos.' },
+      ],
+      regioes: [
+        { nome: 'Médio Norte', cidades: 'Sorriso, Lucas do Rio Verde, Nova Mutum' },
+        { nome: 'Sudeste', cidades: 'Rondonópolis, Primavera do Leste' },
+        { nome: 'Oeste', cidades: 'Tangará da Serra, Campo Novo do Parecis' },
+        { nome: 'Leste e Araguaia', cidades: 'Água Boa, Canarana, Querência' },
+        { nome: 'Norte', cidades: 'Sinop, Alta Floresta' },
+        { nome: 'Baixada Cuiabana', cidades: 'Cuiabá, Várzea Grande' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

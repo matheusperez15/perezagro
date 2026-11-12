@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="min-height:100vh;background:#F7F3EA;font-family:Inter,system-ui,sans-serif;color:#2B2B2B">
+  <dc-import name="Cabecalho" ativo="{{ chave }}" hint-size="100%,73px"></dc-import>
+
+  <div style="position:relative;overflow:hidden">
+  <img src="{{ c.img }}" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ c.pos }};transform:scale({{ c.zoom }});transform-origin:{{ c.origem }}">
+  <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(247,243,234,0.95) 0%,rgba(247,243,234,0.88) 45%,rgba(247,243,234,0.72) 100%)"></div>
+  <section style="position:relative;max-width:1240px;margin:0 auto;padding:44px 28px 72px;display:flex;flex-direction:column;gap:40px">
+    <nav aria-label="Trilha" style="display:flex;flex-wrap:wrap;gap:8px;font-size:13px;color:#6B6658">
+      <a href="Home.dc.html" style="color:#6B6658;text-decoration:none" style-hover="color:#1E3A2F">Início</a><span>/</span><a href="Home.dc.html#servicos" style="color:#6B6658;text-decoration:none" style-hover="color:#1E3A2F">Serviços</a><span>/</span><span style="color:#1E3A2F">{{ c.nome }}</span>
+    </nav>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:48px 64px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <span style="display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8A6408;font-weight:600"><span style="width:32px;height:2px;background:#B8860B"></span>{{ c.eyebrow }}</span>
+        <h1 style="margin:0;font-family:Fraunces,Georgia,serif;font-weight:500;font-size:clamp(36px,4.8vw,58px);line-height:1.06;letter-spacing:-0.01em;color:#1E3A2F;text-wrap:balance">{{ c.titulo }}</h1>
+        <p style="margin:0;font-size:18px;line-height:1.65;color:#3D3D3D;max-width:600px;text-wrap:pretty">{{ c.lead }}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;padding-top:4px">
+          <a href="#contato" style="background:#1E3A2F;color:#F7F3EA;text-decoration:none;font-size:15px;font-weight:500;padding:16px 24px;border-radius:4px" style-hover="background:#2B4F3F;color:#F7F3EA">Solicitar proposta</a>
+          <a href="{{ whats }}" target="_blank" rel="noopener" style="border:1px solid #1E3A2F;color:#1E3A2F;text-decoration:none;font-size:15px;font-weight:500;padding:15px 22px;border-radius:4px" style-hover="background:#EFE9DC;color:#1E3A2F">Conversar pelo WhatsApp</a>
+        </div>
+      </div>
+      <aside style="background:#1E3A2F;color:#F7F3EA;border-radius:6px;padding:32px 32px 18px;display:flex;flex-direction:column">
+        <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#D9A92E;font-weight:600;padding-bottom:14px">Ficha técnica</span>
+        <sc-for list="{{ c.ficha }}" as="f" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;gap:4px;padding:16px 0;border-top:1px solid rgba(247,243,234,0.16)">
+            <span style="font-size:13px;color:#BFB8A8">{{ f.rotulo }}</span>
+            <span style="font-size:16px;line-height:1.5;font-weight:500;color:#F7F3EA">{{ f.valor }}</span>
+          </div>
+        </sc-for>
+      </aside>
+    </div>
+  </section>
+  </div>
+
+
+  <section style="max-width:1240px;margin:0 auto;padding:96px 28px 88px;display:flex;flex-direction:column;gap:40px">
+    <div style="display:flex;flex-direction:column;gap:14px;max-width:720px">
+      <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8A6408;font-weight:600">Quando é necessário</span>
+      <h2 style="margin:0;font-family:Fraunces,Georgia,serif;font-weight:500;font-size:clamp(30px,3.6vw,42px);line-height:1.12;color:#1E3A2F;text-wrap:balance">{{ c.quandoTitulo }}</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));column-gap:40px;border-top:1px solid #1E3A2F">
+      <sc-for list="{{ quando }}" as="q" hint-placeholder-count="6">
+        <div style="display:flex;gap:18px;align-items:baseline;padding:22px 0;border-bottom:1px solid #E2DCCD">
+          <span style="font-size:13px;font-weight:600;color:#B8860B;letter-spacing:0.06em;min-width:22px">{{ q.num }}</span>
+          <span style="font-size:17px;line-height:1.5;color:#2B2B2B">{{ q.texto }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="background:#EFE9DC;border-top:1px solid #E2DCCD;border-bottom:1px solid #E2DCCD">
+    <div style="max-width:1240px;margin:0 auto;padding:96px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:64px">
+      <div style="display:flex;flex-direction:column;gap:28px">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8A6408;font-weight:600">O que entregamos</span>
+          <h2 style="margin:0;font-family:Fraunces,Georgia,serif;font-weight:500;font-size:clamp(30px,3.6vw,42px);line-height:1.12;color:#1E3A2F;text-wrap:balance">Um documento técnico completo e defensável</h2>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ c.entregas }}" as="item" hint-placeholder-count="6">
+            <div style="display:flex;gap:16px;align-items:center;padding:15px 0;border-bottom:1px solid #DCD4C1">
+              <span style="flex:none;width:8px;height:8px;background:#B8860B;transform:rotate(45deg)"></span>
+              <span style="font-size:16px;line-height:1.5;color:#2B2B2B">{{ item }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:28px">
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8A6408;font-weight:600">Etapas</span>
+          <h2 style="margin:0;font-family:Fraunces,Georgia,serif;font-weight:500;font-size:clamp(30px,3.6vw,42px);line-height:1.12;color:#1E3A2F;text-wrap:balance">Como conduzimos o trabalho</h2>
+        </div>
+        <div style="display:flex;flex-direction:column">
+          <sc-for list="{{ etapas }}" as="e" hint-placeholder-count="4">
+            <div style="display:grid;grid-template-columns:56px 1fr;gap:4px 16px;padding:18px 0;border-bottom:1px solid #DCD4C1">
+              <span style="grid-row:span 2;font-family:Fraunces,Georgia,serif;font-size:28px;line-height:1;color:#B8860B">{{ e.num }}</span>
+              <span style="font-size:17px;font-weight:600;color:#1E3A2F">{{ e.titulo }}</span>
+              <span style="font-size:15px;line-height:1.6;color:#4A4A4A;text-wrap:pretty">{{ e.texto }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width:1240px;margin:0 auto;padding:96px 28px;display:flex;flex-direction:column;gap:36px">
+    <div style="display:flex;flex-direction:column;gap:14px;max-width:720px">
+      <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8A6408;font-weight:600">Dúvidas frequentes</span>
+      <h2 style="margin:0;font-family:Fraunces,Georgia,serif;font-weight:500;font-size:clamp(30px,3.6vw,42px);line-height:1.12;color:#1E3A2F;text-wrap:balance">Perguntas que recebemos com frequência</h2>
+    </div>
+    <div style="display:flex;flex-direction:column;border-top:1px solid #1E3A2F;max-width:900px">
+      <sc-for list="{{ faq }}" as="p" hint-placeholder-count="4">
+        <div style="border-bottom:1px solid #E2DCCD">
+          <button onClick="{{ p.toggle }}" aria-expanded="{{ p.aberto }}" style="appearance:none;width:100%;border:0;background:transparent;padding:22px 0;display:flex;justify-content:space-between;align-items:center;gap:20px;text-align:left;cursor:pointer;font:500 18px Inter,sans-serif;color:#1E3A2F">
+            <span>{{ p.q }}</span>
+            <span style="flex:none;font-size:22px;font-weight:400;color:#B8860B;width:20px;text-align:center">{{ p.icone }}</span>
+          </button>
+          <sc-if value="{{ p.aberto }}" hint-placeholder-val="{{ false }}">
+            <p style="margin:0;padding:0 40px 24px 0;font-size:16px;line-height:1.65;color:#4A4A4A;text-wrap:pretty">{{ p.r }}</p>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="max-width:1240px;margin:0 auto;padding:0 28px 96px;display:flex;flex-direction:column;gap:20px">
+    <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#8A6408;font-weight:600">Outros serviços</span>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px">
+      <sc-for list="{{ outros }}" as="o" hint-placeholder-count="3">
+        <a href="{{ o.href }}" style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 24px;border:1px solid #E2DCCD;border-radius:6px;text-decoration:none;color:#1E3A2F;background:#FBF8F1" style-hover="border-color:#B8860B;color:#1E3A2F">
+          <span style="font-family:Fraunces,Georgia,serif;font-size:20px;font-weight:500">{{ o.nome }}</span>
+          <span style="font-size:14px;font-weight:600;color:#8A6408">Ver</span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <dc-import name="Contato" servico="{{ chave }}" titulo="{{ c.ctaTitulo }}" hint-size="100%,760px"></dc-import>
+  <dc-import name="Rodape" hint-size="100%,340px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;servico&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;avaliacao&quot;,&quot;geo&quot;,&quot;judicial&quot;,&quot;agronomica&quot;],&quot;default&quot;:&quot;avaliacao&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const CONTEUDO = {
+  avaliacao: {
+    nome: 'Avaliação de imóveis rurais', href: 'Avaliacao-Rural.dc.html',
+    eyebrow: 'Engenharia de avaliações | NBR 14653-3',
+    titulo: 'Avaliação de imóveis rurais com fundamentação técnica e ART',
+    lead: 'Determinamos o valor de mercado de fazendas, glebas e benfeitorias em todo o Mato Grosso, com vistoria em campo, pesquisa de mercado regional e tratamento estatístico conforme a NBR 14653-3, inclusive para comprovar o valor da terra nua no ITR.',
+    ficha: [['Norma de referência', 'ABNT NBR 14653-1 e 14653-3'], ['Entregável', 'Laudo de avaliação com ART'], ['Finalidades', 'Crédito, compra e venda, partilha, desapropriação e ITR']],
+    img: 'img/avaliacao-rural-drone.jpg', foto: 'Vista aérea de drone de sede rural com galpões, curral e pastagem', pos: 'center 55%', zoom: '1', origem: 'center',
+    quandoTitulo: 'Situações em que o laudo de avaliação é exigido ou recomendado',
+    quando: ['Garantia em operações de crédito rural', 'Compra, venda ou arrendamento do imóvel', 'Inventário, partilha e dissolução societária', 'Desapropriação e servidão administrativa', 'Comprovação do valor da terra nua no ITR', 'Processos judiciais e arbitragens'],
+    entregas: ['Grau de fundamentação e de precisão declarados', 'Valor da terra nua e das benfeitorias em separado', 'Pesquisa de mercado com amostra identificada', 'Mapas do imóvel, uso do solo e aptidão agrícola', 'Relatório fotográfico da vistoria', 'ART registrada no CREA-MT'],
+    etapas: [['Análise documental', 'Conferimos matrícula, CAR, CCIR e certificação no SIGEF para delimitar o objeto da avaliação.'], ['Vistoria', 'Percorremos o imóvel com GNSS e drone, registrando solos, benfeitorias, acessos e uso atual.'], ['Pesquisa e tratamento', 'Coletamos dados de mercado na região e aplicamos tratamento por fatores ou inferência estatística.'], ['Laudo', 'Entregamos o laudo assinado, com ART, e apresentamos as conclusões em reunião.']],
+    faq: [['Quanto tempo leva uma avaliação?', 'O prazo depende da área, da localização e da finalidade. Informamos o cronograma na proposta, após a análise dos documentos.'], ['Quais documentos são necessários?', 'Matrícula atualizada, CAR, CCIR e, quando houver, a certificação no SIGEF. Ajudamos a levantar o que estiver faltando.'], ['O laudo é aceito por bancos?', 'Elaboramos o laudo conforme a NBR 14653-3 e as exigências usuais das instituições financeiras, sempre com ART registrada.'], ['O laudo serve para reduzir o ITR?', 'Sim. Quando o valor da terra nua arbitrado pela Receita Federal está acima do mercado, o laudo conforme a NBR 14653-3 comprova o valor real, o que pode reduzir o imposto e afastar autuações.'], ['Atendem em qualquer município?', 'Sim. Atendemos todo o Mato Grosso e regiões vizinhas mediante agendamento da vistoria.']],
+    ctaTitulo: 'Solicitem a avaliação do imóvel',
+  },
+  geo: {
+    nome: 'Georreferenciamento e regularização', href: 'Georreferenciamento.dc.html',
+    eyebrow: 'SIGEF, CAR e regularização fundiária',
+    titulo: 'Georreferenciamento, CAR e regularização fundiária de imóveis rurais',
+    lead: 'Organizamos a situação técnica e documental do imóvel: levantamento GNSS e certificação no SIGEF, inscrição e retificação do CAR, adequação ao PRA, usucapião judicial e extrajudicial e regularização de matrícula, área e limites junto ao INCRA, ao INTERMAT, à SEMA-MT e ao cartório.',
+    ficha: [['Órgãos', 'INCRA, SEMA-MT, INTERMAT e cartórios de registro'], ['Entregáveis', 'Certificação SIGEF, CAR, planta e memorial descritivo'], ['Finalidades', 'Venda, crédito, usucapião, titulação e redução do ITR']],
+    img: 'img/georreferenciamento.png', foto: 'Imóvel rural com perímetro e vértices demarcados', pos: 'center 55%', zoom: '1.04', origem: 'center',
+    quandoTitulo: 'Situações em que a regularização do imóvel é necessária',
+    quando: ['Venda, desmembramento ou unificação de matrículas', 'Inscrição, retificação ou pendências no CAR', 'Adesão ao PRA e regularização de passivo ambiental', 'Retificação de área, titulação e usucapião', 'Sobreposição de áreas e conflitos de divisa', 'Comprovação de APP e reserva legal para o ITR'],
+    entregas: ['Levantamento GNSS e certificação no SIGEF', 'Planta e memorial descritivo para registro e usucapião', 'Inscrição ou retificação do CAR', 'Mapa de uso do solo, APP e reserva legal', 'Projeto de recomposição para o PRA, quando necessário', 'ART registrada no CREA-MT'],
+    etapas: [['Diagnóstico', 'Cruzamos matrícula, CCIR, CAR, SIGEF e imagens de satélite para identificar cada pendência do imóvel.'], ['Campo', 'Realizamos o levantamento GNSS do perímetro e o mapeamento de APP, reserva legal e uso do solo.'], ['Peças técnicas', 'Preparamos planta, memorial, arquivos do SIGEF e retificação do CAR de forma coerente entre si.'], ['Acompanhamento', 'Protocolamos nos órgãos, respondemos às notificações e entregamos a documentação para registro.']],
+    faq: [['Quando o georreferenciamento é obrigatório?', 'A exigência segue os prazos definidos em lei conforme o tamanho da área e se aplica a transferências, desmembramentos e unificações. Orientamos cada caso.'], ['O CAR já inscrito precisa ser revisado?', 'Muitos cadastros foram feitos sem levantamento de campo e apresentam divergências de área, APP ou reserva legal. Revisamos o cadastro e corrigimos o necessário antes da análise da SEMA-MT.'], ['Fazem o levantamento para usucapião?', 'Sim. Preparamos planta e memorial descritivo georreferenciados, identificamos os confrontantes e reunimos as peças técnicas exigidas tanto na usucapião judicial quanto na extrajudicial, feita diretamente no cartório.'], ['A regularização ajuda a reduzir o ITR?', 'Sim. As áreas de preservação permanente e de reserva legal, quando bem delimitadas e documentadas, são excluídas da área tributável do imóvel.'], ['E se houver sobreposição com vizinhos?', 'Identificamos a sobreposição no diagnóstico e propomos a solução técnica antes do envio ao SIGEF.']],
+    ctaTitulo: 'Solicitem o diagnóstico do imóvel',
+  },
+  judicial: {
+    nome: 'Perícia judicial agrária', href: 'Pericia-Judicial.dc.html',
+    eyebrow: 'Perito do juízo e assistência técnica',
+    titulo: 'Perícia judicial em questões rurais e agrárias',
+    lead: 'Atuamos como peritos nomeados pelo juízo e como assistentes técnicos das partes em ações que envolvem imóveis rurais, produção agrícola, divisas e danos, conforme os artigos 464 a 480 do CPC.',
+    ficha: [['Base legal', 'CPC, arts. 156 e 464 a 480'], ['Entregável', 'Laudo pericial ou parecer técnico'], ['Ações', 'Possessórias, divisórias, indenizatórias, desapropriação']],
+    img: 'img/pericia-judicial.png', foto: 'Profissional em vistoria de lavoura com tablet', pos: 'left 40%', zoom: '1.3', origem: 'left center',
+    quandoTitulo: 'Ações em que atuamos com frequência',
+    quando: ['Ações possessórias, demarcatórias e de usucapião', 'Divisão de condomínio rural', 'Indenização por desapropriação e servidão', 'Danos em lavouras e pastagens', 'Arrendamento e parceria rural', 'Execuções com penhora de imóvel rural'],
+    entregas: ['Proposta de honorários fundamentada', 'Resposta objetiva a todos os quesitos', 'Laudo com metodologia, vistoria e anexos', 'Parecer técnico crítico na assistência', 'Esclarecimentos e participação em audiência', 'ART registrada no CREA-MT'],
+    etapas: [['Nomeação ou contratação', 'Aceite do encargo, proposta de honorários e análise dos autos.'], ['Diligência', 'Vistoria previamente comunicada às partes e aos assistentes técnicos.'], ['Análise', 'Estudo técnico, cálculos e resposta fundamentada aos quesitos.'], ['Laudo', 'Protocolo no prazo fixado e esclarecimentos sempre que intimados.']],
+    faq: [['Atuam também como assistentes técnicos?', 'Sim. Elaboramos quesitos, acompanhamos a diligência e emitimos parecer técnico sobre o laudo do perito.'], ['Como são definidos os honorários?', 'Apresentamos proposta fundamentada nas horas técnicas estimadas, nos deslocamentos e na complexidade da perícia.'], ['Atendem comarcas do interior?', 'Sim. Atuamos em comarcas de todo o Mato Grosso.'], ['Em quanto tempo o laudo é entregue?', 'Cumprimos o prazo fixado pelo juízo. Quando necessário, solicitamos prorrogação de forma justificada nos autos.']],
+    ctaTitulo: 'Falem conosco sobre o processo',
+  },
+  agronomica: {
+    nome: 'Perícia agronômica e de safra', href: 'Pericia-Agronomica.dc.html',
+    eyebrow: 'Seguro rural, Proagro e crédito',
+    titulo: 'Perícia agronômica, quebra de safra e danos em lavouras',
+    lead: 'Quantificamos perdas de produção, avaliamos danos por clima, pragas, deriva ou manejo e documentamos a condição das lavouras para seguradoras, bancos, produtores e processos judiciais.',
+    ficha: [['Culturas', 'Soja, milho, algodão e pastagens'], ['Entregável', 'Laudo agronômico com ART'], ['Finalidades', 'Seguro rural, Proagro, prorrogação de dívida, litígios']],
+    img: 'img/pericia-agronomica.png', foto: 'Lavoura de soja sob tempestade', pos: 'center 45%', zoom: '1', origem: 'center',
+    quandoTitulo: 'Situações em que a perícia agronômica faz diferença',
+    quando: ['Quebra de safra por seca, excesso de chuva ou granizo', 'Prorrogação de parcelas de crédito rural', 'Contestação de laudo de seguradora', 'Danos por deriva de defensivos', 'Falha de germinação e qualidade de sementes', 'Disputas em arrendamento e parceria'],
+    entregas: ['Estimativa de produtividade por amostragem', 'Mapas de falhas e vigor por drone e satélite', 'Registro dos dados climáticos do período', 'Comparativo com a produtividade esperada', 'Relatório fotográfico georreferenciado', 'ART registrada no CREA-MT'],
+    etapas: [['Acionamento', 'O tempo importa: a vistoria precisa ocorrer antes da colheita da área afetada.'], ['Vistoria', 'Amostragem em campo e voo de drone sobre os talhões atingidos.'], ['Análise', 'Cruzamos dados climáticos, imagens e amostras para calcular as perdas.'], ['Laudo', 'Conclusões objetivas para o banco, a seguradora ou o juízo.']],
+    faq: [['Até quando é possível fazer a vistoria?', 'O ideal é antes da colheita da área afetada. Depois dela, a perícia depende de registros e imagens anteriores.'], ['O laudo serve para prorrogar o financiamento?', 'O laudo documenta a perda e embasa o pedido de prorrogação junto à instituição financeira.'], ['Usam imagens de satélite?', 'Sim. Combinamos séries históricas de satélite com voo de drone e amostragem em campo.'], ['Atendem pequenas áreas?', 'Sim. O escopo e os honorários são ajustados ao tamanho da área e à finalidade do laudo.']],
+    ctaTitulo: 'Acionem a perícia antes da colheita',
+  },
+};
+
+class Component extends DCLogic {
+  state = { aberto: 0 };
+  renderVals() {
+    const chave = CONTEUDO[this.props.servico] ? this.props.servico : 'avaliacao';
+    const c = CONTEUDO[chave];
+    const n = (i) => String(i + 1).padStart(2, '0');
+    const msgs = { avaliacao: 'avaliação de imóvel rural', geo: 'georreferenciamento e regularização do imóvel', judicial: 'perícia judicial', agronomica: 'perícia agronômica' };
+    return {
+      chave,
+      c: { ...c, ficha: c.ficha.map(([rotulo, valor]) => ({ rotulo, valor })) },
+      quando: c.quando.map((texto, i) => ({ num: n(i), texto })),
+      etapas: c.etapas.map(([titulo, texto], i) => ({ num: n(i), titulo, texto })),
+      faq: c.faq.map(([q, r], i) => ({
+        q, r, aberto: this.state.aberto === i, icone: this.state.aberto === i ? '\u2212' : '+',
+        toggle: () => this.setState((s) => ({ aberto: s.aberto === i ? -1 : i })),
+      })),
+      outros: Object.keys(CONTEUDO).filter((k) => k !== chave).map((k) => ({ nome: CONTEUDO[k].nome, href: CONTEUDO[k].href })),
+      whats: 'https://wa.me/5565999826390?text=' + encodeURIComponent('Olá, gostaríamos de um orçamento para ' + msgs[chave] + '.'),
+    };
+  }
+}
+</script>
+</body>
+</html>

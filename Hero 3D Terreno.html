@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgroPerícias MT | Hero 3D</title>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.184.0/build/three.module.js",
+    "three/addons/controls/OrbitControls.js": "https://unpkg.com/three@0.184.0/examples/jsm/controls/OrbitControls.js",
+    "three/addons/exporters/OBJExporter.js": "https://unpkg.com/three@0.184.0/examples/jsm/exporters/OBJExporter.js",
+    "three/addons/exporters/GLTFExporter.js": "https://unpkg.com/three@0.184.0/examples/jsm/exporters/GLTFExporter.js"
+  },
+  "integrity": {
+    "https://unpkg.com/three@0.184.0/build/three.module.js": "sha384-8FCZ1eVO6it4+pbec2aDtnTrwjWXZLJRC+MAGCIPDgsYnUrl/E0A2YlF8ioMKI/J",
+    "https://unpkg.com/three@0.184.0/build/three.core.js": "sha384-dw2ooPewaEIrAgl6oFDBmmBWCE9oW9LxRGcfwZ0hLvEprzo202wXl7vCYHRlSnOT",
+    "https://unpkg.com/three@0.184.0/examples/jsm/controls/OrbitControls.js": "sha384-4rziNxOBZKQ69i+w+f89KJ55TCYquwchVbByQwmaOeIOXdOU2PLDn3kOfXHwIJC9",
+    "https://unpkg.com/three@0.184.0/examples/jsm/exporters/OBJExporter.js": "sha384-nbwtoZENJD3Vq+ACK0CuGQdPMuDWHkamC2KJD70EV5nfg6jQjfppKOea07YJN+N3",
+    "https://unpkg.com/three@0.184.0/examples/jsm/exporters/GLTFExporter.js": "sha384-VofkvpG6HERhFCYbsUOHeNXBCqID2nfqkQqnVzE1jc/oPcz+qJ13ADdXH08hE+cQ"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;height:100%;background:#F7F3EA;font-family:Inter,system-ui,sans-serif}
+  three-d-stage{display:block;width:100vw;height:100vh}
+  three-d-stage:not(:defined){visibility:hidden}
+  .bg{position:fixed;left:16px;top:16px;display:flex;gap:6px;z-index:5}
+  .bg a{font-size:12px;padding:7px 12px;border:1px solid rgba(30,58,47,.25);color:#1E3A2F;text-decoration:none;background:rgba(247,243,234,.85);border-radius:4px}
+  .bg a[aria-current]{background:#1E3A2F;color:#F7F3EA;border-color:#1E3A2F}
+</style>
+</head>
+<body>
+<nav class="bg">
+  <a href="?bg=creme" id="b-creme">Fundo creme</a>
+  <a href="?bg=verde" id="b-verde">Fundo verde</a>
+</nav>
+<three-d-stage name="agropericias-terreno" autorotate></three-d-stage>
+<script src="three-d-stage.js"></script>
+<script type="module">
+const qs = new URLSearchParams(location.search);
+const verde = qs.get('bg') === 'verde';
+const embed = qs.has('embed');
+if (embed) {
+  document.querySelector('.bg').remove();
+  customElements.whenDefined('three-d-stage').then(() => {
+    const st = document.createElement('style');
+    st.textContent = '.toolbar,.note{display:none!important}';
+    document.querySelector('three-d-stage').shadowRoot.appendChild(st);
+  });
+}
+document.getElementById(verde ? 'b-verde' : 'b-creme')?.setAttribute('aria-current', 'true');
+const BG = verde ? '#16291F' : '#F7F3EA';
+document.body.style.background = BG;
+const stage = document.querySelector('three-d-stage');
+stage.setAttribute('background', BG);
+const { THREE } = await stage.ready;
+if (stage._scene) stage._scene.background = new THREE.Color(BG);
+
+let seed = 7;
+const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+const S = 6;
+
+// córrego: curva em planta
+const rio = new THREE.CatmullRomCurve3(
+  [[-4.4, 5.0], [-3.2, 4.1], [-1.6, 3.5], [0.2, 3.3], [1.9, 3.75], [3.4, 3.2], [4.8, 3.55], [6.3, 3.3]]
+    .map(([x, z]) => new THREE.Vector3(x, 0, z)), false, 'centripetal');
+const rioPts = rio.getSpacedPoints(240);
+const distRio = (x, z) => {
+  let m = Infinity;
+  for (const p of rioPts) { const d = (p.x - x) ** 2 + (p.z - z) ** 2; if (d < m) m = d; }
+  return Math.sqrt(m);
+};
+
+const g = (dx, dz, r) => Math.exp(-(dx * dx + dz * dz) / (r * r));
+const cache = new Map();
+const h = (x, z) => {
+  const k = Math.round(x * 2000) * 1e6 + Math.round(z * 2000);
+  if (cache.has(k)) return cache.get(k);
+  const base = 2.1 * (
+    0.62 * g(x - 1.6, z + 0.9, 3.0) + 0.42 * g(x + 3.4, z - 1.2, 2.3) + 0.22 * g(x - 3.8, z + 4.0, 2.0) +
+    0.07 * Math.sin(0.55 * x + 0.3 * z) + 0.05 * Math.sin(0.8 * z - 0.45 * x + 1.2));
+  const d = distRio(x, z);
+  const v = base - 0.32 * Math.exp(-(d * d) / 0.55) + 0.12;
+  cache.set(k, v);
+  return v;
+};
+
+const mat = (name, color, rough = 0.92, extra = {}) => new THREE.MeshStandardMaterial({ name, color, roughness: rough, metalness: 0, ...extra });
+const line = (name, color, opacity = 1) => new THREE.LineBasicMaterial({ name, color, transparent: opacity < 1, opacity });
+const M = {
+  solo: mat('solo_carreadores', verde ? '#B3A586' : '#C4B796'),
+  greens: ['#1E3A2F', '#24453A', '#2B4F3F', '#1A3329', '#31563F'].map((c, i) => mat('talhao_verde_' + (i + 1), c)),
+  gold: mat('talhao_gold', '#A9790A', 0.95),
+  mata: mat('mata_solo', '#132a1f', 1),
+  copa1: mat('copa_escura', '#173526', 0.95, { flatShading: true }),
+  copa2: mat('copa_media', '#24483A', 0.95, { flatShading: true }),
+  agua: mat('agua', '#6E8C8A', 0.35),
+  parede: mat('benfeitoria_parede', '#ECE5D4', 0.8),
+  telhado: mat('benfeitoria_telhado', '#7A7466', 0.7),
+  silo: mat('silo', '#D9D4C7', 0.45, { metalness: 0.3 }),
+  marco: mat('marco_geodesico', '#B8860B', 0.6, { metalness: 0.2 }),
+  estrato1: mat('solo_horizonte_A', '#3E3123', 1, { side: THREE.DoubleSide }),
+  estrato2: mat('solo_latossolo', '#7C4A30', 1, { side: THREE.DoubleSide }),
+  estrato3: mat('solo_saprolito', '#5A4433', 1, { side: THREE.DoubleSide }),
+};
+const L = {
+  curva: line('curvas_nivel', '#C9971F', 0.7),
+  mestra: line('curvas_mestras', '#D9A92E'),
+  plantio: line('linhas_plantio', '#3E6650', 0.4),
+  plantioG: line('linhas_plantio_gold', '#94690A', 0.5),
+  pivo: line('pivo_braco', '#F7F3EA', 1),
+};
+
+const G = new THREE.Group(); G.name = 'terreno_lavoura_mt';
+const add = (o, name, parent = G) => { o.name = name; parent.add(o); return o; };
+const lineGeo = (pts) => { const b = new THREE.BufferGeometry(); b.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3)); return b; };
+const applyH = (geo, lift) => {
+  const p = geo.attributes.position;
+  for (let i = 0; i < p.count; i++) p.setY(i, h(p.getX(i), p.getZ(i)) + lift);
+  geo.computeVertexNormals(); return geo;
+};
+const rect = (x0, x1, z0, z1, lift, dens = 14) => {
+  const w = x1 - x0, d = z1 - z0;
+  const geo = new THREE.PlaneGeometry(w, d, Math.ceil(w * dens), Math.ceil(d * dens));
+  geo.rotateX(-Math.PI / 2); geo.translate((x0 + x1) / 2, 0, (z0 + z1) / 2);
+  return applyH(geo, lift);
+};
+
+add(new THREE.Mesh(rect(-S, S, -S, S, 0, 16), M.solo), 'solo_base');
+
+// talhões
+const R = 0.05;
+const T = [
+  [-6, -2.9, -6, -2.2, 0, 'x'], [-2.9, 0.3, -6, -2.2, 1, 'pivo'], [0.3, 3.6, -6, -3.8, 2, 'x'], [3.6, 6, -4.75, -3.8, 4, 'x'],
+  [0.3, 6, -3.8, -2.2, 3, 'x'], [-6, -2.9, -2.2, 2.4, 4, 'z'], [-2.9, 0.3, -2.2, 1.6, 2, 'x'],
+  [0.3, 3.4, -2.2, 1.6, 'gold', 'z'], [3.4, 6, -2.2, 1.6, 0, 'z'], [-2.9, 1.8, 1.6, 6, 3, 'x'], [1.8, 6, 1.6, 6, 1, 'z'],
+];
+const talhoes = new THREE.Group(); talhoes.name = 'talhoes'; G.add(talhoes);
+const plantio = [], plantioG = [];
+T.forEach(([x0, x1, z0, z1, c, dir], i) => {
+  const e = (q, edge) => (q === edge ? 1.6 : 1) * R;
+  const a = x0 + e(x0, -S), b = x1 - e(x1, S), s0 = z0 + e(z0, -S), s1 = z1 - e(z1, S);
+  const isG = c === 'gold';
+  add(new THREE.Mesh(rect(a, b, s0, s1, 0.008), isG ? M.gold : M.greens[c]), isG ? 'talhao_gold' : 'talhao_' + String(i + 1).padStart(2, '0'), talhoes);
+  const out = isG ? plantioG : plantio, step = 0.1, smp = 0.12, y = 0.014;
+  if (dir === 'pivo') {
+    const cx = (a + b) / 2, cz = (s0 + s1) / 2, rr = Math.min(b - a, s1 - s0) / 2 - 0.08;
+    for (let r = 0.12; r < rr; r += step) {
+      const n = Math.ceil(r * 40);
+      for (let k = 0; k < n; k++) {
+        const t0 = (k / n) * Math.PI * 2, t1 = ((k + 1) / n) * Math.PI * 2;
+        const p0 = [cx + Math.cos(t0) * r, cz + Math.sin(t0) * r], p1 = [cx + Math.cos(t1) * r, cz + Math.sin(t1) * r];
+        out.push(p0[0], h(...p0) + y, p0[1], p1[0], h(...p1) + y, p1[1]);
+      }
+    }
+    const disco = new THREE.CircleGeometry(rr, 96); disco.rotateX(-Math.PI / 2); disco.translate(cx, 0, cz);
+    add(new THREE.Mesh(applyH(disco, 0.011), mat('pivo_area', '#3A6148')), 'pivo_central_area', talhoes);
+    const arm = [], ang = -0.6;
+    for (let r = 0; r < rr; r += 0.08) {
+      const p0 = [cx + Math.cos(ang) * r, cz + Math.sin(ang) * r], p1 = [cx + Math.cos(ang) * (r + 0.08), cz + Math.sin(ang) * (r + 0.08)];
+      arm.push(p0[0], h(...p0) + 0.06, p0[1], p1[0], h(...p1) + 0.06, p1[1]);
+    }
+    add(new THREE.LineSegments(lineGeo(arm), L.pivo), 'pivo_central_braco');
+    const torre = add(new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.04, 0.12, 12), M.parede), 'pivo_central_torre');
+    torre.position.set(cx, h(cx, cz) + 0.06, cz);
+  } else if (dir === 'x') {
+    for (let z = s0 + step / 2; z < s1; z += step)
+      for (let x = a; x < b - 1e-6; x += smp) { const x2 = Math.min(x + smp, b); out.push(x, h(x, z) + y, z, x2, h(x2, z) + y, z); }
+  } else {
+    for (let x = a + step / 2; x < b; x += step)
+      for (let z = s0; z < s1 - 1e-6; z += smp) { const z2 = Math.min(z + smp, s1); out.push(x, h(x, z) + y, z, x, h(x, z2) + y, z2); }
+  }
+});
+add(new THREE.LineSegments(lineGeo(plantio), L.plantio), 'linhas_plantio');
+add(new THREE.LineSegments(lineGeo(plantioG), L.plantioG), 'linhas_plantio_gold');
+
+// faixa ao longo do córrego (APP) e água
+const ribbon = (half, lift, across = 6) => {
+  const pos = [], idx = [], n = rioPts.length;
+  for (let k = 0; k < n; k++) {
+    const p = rioPts[k], t = rio.getTangentAt(Math.min(k / (n - 1), 1));
+    const nx = -t.z, nz = t.x;
+    for (let j = 0; j <= across; j++) {
+      const o = -half + (2 * half * j) / across;
+      let x = p.x + nx * o, z = p.z + nz * o;
+      x = Math.max(-S, Math.min(S, x)); z = Math.max(-S, Math.min(S, z));
+      pos.push(x, h(x, z) + lift, z);
+    }
+  }
+  for (let k = 0; k < n - 1; k++) for (let j = 0; j < across; j++) {
+    const a = k * (across + 1) + j, b = a + across + 1;
+    idx.push(a, b, a + 1, b, b + 1, a + 1);
+  }
+  const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.setIndex(idx); geo.computeVertexNormals();
+  return geo;
+};
+add(new THREE.Mesh(ribbon(0.42, 0.02, 10), M.mata), 'app_mata_ciliar');
+add(new THREE.Mesh(ribbon(0.045, 0.03, 2), M.agua), 'corrego');
+
+// reserva legal
+const RL = [-6 + R * 1.6, -2.9 - R, 2.4 + R, 6 - R * 1.6];
+add(new THREE.Mesh(rect(RL[0], RL[1], RL[2], RL[3], 0.01), M.mata), 'reserva_legal_solo');
+
+// árvores
+const copas = new THREE.Group(); copas.name = 'vegetacao_nativa'; G.add(copas);
+const copaGeo = new THREE.IcosahedronGeometry(1, 1);
+const tree = (x, z, s) => {
+  const m = new THREE.Mesh(copaGeo, rnd() < 0.55 ? M.copa1 : M.copa2);
+  m.scale.set(s, s * (0.7 + rnd() * 0.35), s);
+  m.position.set(x, h(x, z) + s * 0.55, z);
+  m.rotation.y = rnd() * 6.28;
+  m.name = 'copa_' + copas.children.length;
+  copas.add(m);
+};
+for (let i = 0; i < 520; i++) {
+  const x = RL[0] + 0.08 + rnd() * (RL[1] - RL[0] - 0.16), z = RL[2] + 0.08 + rnd() * (RL[3] - RL[2] - 0.16);
+  tree(x, z, 0.07 + rnd() * 0.07);
+}
+for (let i = 0; i < 360; i++) {
+  const k = Math.floor(rnd() * rioPts.length), p = rioPts[k], t = rio.getTangentAt(k / (rioPts.length - 1));
+  const side = rnd() < 0.5 ? -1 : 1, o = side * (0.09 + rnd() * 0.28);
+  const x = p.x - t.z * o, z = p.z + t.x * o;
+  if (Math.abs(x) > S - 0.1 || Math.abs(z) > S - 0.1) continue;
+  tree(x, z, 0.055 + rnd() * 0.06);
+}
+
+// sede: galpões e silos
+const sede = new THREE.Group(); sede.name = 'sede_benfeitorias'; G.add(sede);
+const galpao = (x, z, w, d, hh, name) => {
+  const y = h(x, z);
+  const corpo = add(new THREE.Mesh(new THREE.BoxGeometry(w, hh, d), M.parede), name + '_corpo', sede);
+  corpo.position.set(x, y + hh / 2 - 0.02, z);
+  const tel = add(new THREE.Mesh(new THREE.CylinderGeometry(d * 0.62, d * 0.62, w + 0.04, 3, 1), M.telhado), name + '_telhado', sede);
+  tel.rotation.z = Math.PI / 2; tel.rotation.x = Math.PI / 2;
+  tel.scale.set(1, 1, 0.35);
+  tel.position.set(x, y + hh - 0.02 + d * 0.1, z);
+};
+galpao(4.35, -5.3, 0.95, 0.38, 0.17, 'galpao_1');
+galpao(4.35, -5.78, 0.7, 0.26, 0.13, 'galpao_2');
+[[5.25, -5.55], [5.5, -5.55], [5.25, -5.3], [5.5, -5.3]].forEach(([x, z], i) => {
+  const y = h(x, z);
+  const c = add(new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.34, 32), M.silo), 'silo_' + (i + 1), sede);
+  c.position.set(x, y + 0.15, z);
+  const t = add(new THREE.Mesh(new THREE.ConeGeometry(0.105, 0.09, 32), M.silo), 'silo_' + (i + 1) + '_cobertura', sede);
+  t.position.set(x, y + 0.365, z);
+});
+
+// curvas de nível
+{
+  const N = 320, cs = (2 * S) / N, H = []; let lo = Infinity, hi = -Infinity;
+  for (let j = 0; j <= N; j++) for (let i = 0; i <= N; i++) { const q = h(-S + i * cs, -S + j * cs); H.push(q); lo = Math.min(lo, q); hi = Math.max(hi, q); }
+  const at = (i, j) => H[j * (N + 1) + i], pn = [], pm = [], step = 0.1;
+  let li = 0;
+  for (let Lv = Math.ceil(lo / step) * step; Lv < hi; Lv += step, li++) {
+    const out = li % 5 === 0 ? pm : pn;
+    for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) {
+      const c = [[i, j], [i + 1, j], [i + 1, j + 1], [i, j + 1]], vv = c.map(([a, b]) => at(a, b)), cr = [];
+      for (let k = 0; k < 4; k++) {
+        const v0 = vv[k], v1 = vv[(k + 1) % 4];
+        if ((v0 < Lv) !== (v1 < Lv)) { const t = (Lv - v0) / (v1 - v0), [i0, j0] = c[k], [i1, j1] = c[(k + 1) % 4]; cr.push([-S + (i0 + (i1 - i0) * t) * cs, -S + (j0 + (j1 - j0) * t) * cs]); }
+      }
+      for (let k = 0; k + 1 < cr.length; k += 2) {
+        const [x0, z0] = cr[k], [x1, z1] = cr[k + 1];
+        if (distRio(x0, z0) < 0.4 || (x0 > RL[0] && x0 < RL[1] && z0 > RL[2] && z0 < RL[3])) continue;
+        out.push(x0, Lv + 0.028, z0, x1, Lv + 0.028, z1);
+      }
+    }
+  }
+  add(new THREE.LineSegments(lineGeo(pn), L.curva), 'curvas_de_nivel');
+  add(new THREE.LineSegments(lineGeo(pm), L.mestra), 'curvas_mestras');
+}
+
+// marcos do perímetro georreferenciado
+[[-S, -S], [S, -S], [S, S], [-S, S], [0, -S], [S, 0], [0, S], [-S, 0]].forEach(([x, z], i) => {
+  const ix = Math.sign(x) * (S - 0.12), iz = Math.sign(z) * (S - 0.12);
+  const px = x === 0 ? 0 : ix, pz = z === 0 ? 0 : iz;
+  const m = add(new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.22, 16), M.marco), 'marco_M' + String(i + 1).padStart(2, '0'));
+  m.position.set(px, h(px, pz) + 0.11, pz);
+});
+
+// corte do solo em horizontes
+{
+  const n = 240, D = [-0.14, -0.5, -0.85];
+  const paths = [(t) => [-S + 2 * S * t, S], (t) => [S, S - 2 * S * t], (t) => [S - 2 * S * t, -S], (t) => [-S, -S + 2 * S * t]];
+  const band = (path, top, bot) => {
+    const pos = [], idx = [];
+    for (let k = 0; k <= n; k++) {
+      const [x, z] = path(k / n), y = h(x, z);
+      pos.push(x, top(y), z, x, bot(y), z);
+    }
+    for (let k = 0; k < n; k++) { const a = k * 2; idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); }
+    const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.setIndex(idx); geo.computeVertexNormals();
+    return geo;
+  };
+  const corte = new THREE.Group(); corte.name = 'corte_solo'; G.add(corte);
+  paths.forEach((p, i) => {
+    add(new THREE.Mesh(band(p, (y) => y, (y) => y + D[0]), M.estrato1), 'horizonte_A_' + (i + 1), corte);
+    add(new THREE.Mesh(band(p, (y) => y + D[0], () => 0.1 + D[1] * 0.6), M.estrato2), 'latossolo_' + (i + 1), corte);
+    add(new THREE.Mesh(band(p, () => 0.1 + D[1] * 0.6, () => D[2]), M.estrato3), 'saprolito_' + (i + 1), corte);
+  });
+  const f = add(new THREE.Mesh(new THREE.PlaneGeometry(2 * S, 2 * S), M.estrato3), 'base_inferior', corte);
+  f.rotation.x = Math.PI / 2; f.position.y = D[2];
+}
+
+stage.setObject(G);
+
+const cam = stage._camera, ctr = stage._controls;
+if (cam && ctr) {
+  const box = new THREE.Box3().setFromObject(G);
+  const c = box.getCenter(new THREE.Vector3()), r = box.getBoundingSphere(new THREE.Sphere()).radius;
+  const dist = (r / Math.tan((cam.fov * Math.PI) / 360)) * 0.9;
+  cam.position.copy(c).add(new THREE.Vector3(0.75, 1.1, 1).normalize().multiplyScalar(dist));
+  ctr.target.copy(c);
+  ctr.minPolarAngle = 0.35; ctr.maxPolarAngle = 1.05;
+  ctr.minDistance = dist * 0.5; ctr.maxDistance = dist * 1.4;
+  if (embed) { ctr.enableZoom = false; ctr.enablePan = false; }
+  ctr.update();
+  if (stage._key) { stage._key.position.set(c.x - 9, c.y + 10, c.z + 6); stage._key.intensity = 2.4; }
+}
+</script>
+</body>
+</html>

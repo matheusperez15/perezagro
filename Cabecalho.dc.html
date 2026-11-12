@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<header style="position:sticky;top:0;z-index:50;background:rgba(247,243,234,0.96);backdrop-filter:blur(8px);border-bottom:1px solid #E2DCCD;font-family:Inter,system-ui,sans-serif">
+  <div style="max-width:1240px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+    <a href="Home.dc.html" aria-label="AgroPerícias MT, página inicial" style="display:flex;flex:none">
+      <img src="svg/logo-horizontal-colorido.svg" alt="AgroPerícias MT" style="height:44px;width:auto;display:block">
+    </a>
+    <sc-if value="{{ desktop }}" hint-placeholder-val="{{ true }}">
+      <nav style="display:flex;align-items:center;gap:26px">
+        <sc-for list="{{ links }}" as="l" hint-placeholder-count="4">
+          <a href="{{ l.href }}" style="font-size:14px;font-weight:500;color:#1E3A2F;text-decoration:none;padding:6px 0;border-bottom:2px solid {{ l.borda }};white-space:nowrap" style-hover="color:#8A6408">{{ l.rotulo }}</a>
+        </sc-for>
+        <a href="{{ whats }}" target="_blank" rel="noopener" style="font-size:14px;font-weight:500;color:#F7F3EA;background:#1E3A2F;text-decoration:none;padding:11px 18px;border-radius:4px;white-space:nowrap" style-hover="background:#2B4F3F">Falar com a equipe</a>
+      </nav>
+    </sc-if>
+    <sc-if value="{{ mobile }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ toggle }}" aria-label="Abrir menu" style="appearance:none;border:1px solid #1E3A2F;background:transparent;color:#1E3A2F;font:500 14px Inter,sans-serif;padding:11px 16px;border-radius:4px;cursor:pointer">{{ rotuloMenu }}</button>
+    </sc-if>
+  </div>
+  <sc-if value="{{ menuAberto }}" hint-placeholder-val="{{ false }}">
+    <nav style="display:flex;flex-direction:column;padding:4px 28px 20px;gap:2px;border-top:1px solid #E2DCCD">
+      <sc-for list="{{ links }}" as="l" hint-placeholder-count="4">
+        <a href="{{ l.href }}" style="font-size:16px;font-weight:500;color:#1E3A2F;text-decoration:none;padding:13px 0;border-bottom:1px solid #E2DCCD">{{ l.rotulo }}</a>
+      </sc-for>
+      <a href="{{ whats }}" target="_blank" rel="noopener" style="margin-top:14px;text-align:center;font-size:15px;font-weight:500;color:#F7F3EA;background:#1E3A2F;text-decoration:none;padding:14px 18px;border-radius:4px">Falar com a equipe</a>
+    </nav>
+  </sc-if>
+</header>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:90},&quot;ativo&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;avaliacao&quot;,&quot;geo&quot;,&quot;judicial&quot;,&quot;agronomica&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { w: typeof window !== 'undefined' ? window.innerWidth : 1200, aberto: false };
+  componentDidMount() {
+    this.onR = () => this.setState({ w: window.innerWidth });
+    window.addEventListener('resize', this.onR);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onR); }
+  renderVals() {
+    const ativo = this.props.ativo ?? '';
+    const base = [
+      ['avaliacao', 'Avaliação rural', 'Avaliacao-Rural.dc.html'],
+      ['geo', 'Geo e regularização', 'Georreferenciamento.dc.html'],
+      ['judicial', 'Perícia judicial', 'Pericia-Judicial.dc.html'],
+      ['agronomica', 'Perícia agronômica', 'Pericia-Agronomica.dc.html'],
+      ['contato', 'Contato', ativo === 'home' || !ativo ? '#contato' : 'Home.dc.html#contato'],
+    ];
+    const desktop = this.state.w >= 1080;
+    return {
+      links: base.map(([k, rotulo, href]) => ({ rotulo, href, borda: k === ativo ? '#B8860B' : 'transparent' })),
+      desktop,
+      mobile: !desktop,
+      menuAberto: !desktop && this.state.aberto,
+      rotuloMenu: this.state.aberto ? 'Fechar' : 'Menu',
+      toggle: () => this.setState((s) => ({ aberto: !s.aberto })),
+      whats: 'https://wa.me/5565999826390?text=' + encodeURIComponent('Olá, gostaríamos de um orçamento.'),
+    };
+  }
+}
+</script>
+</body>
+</html>

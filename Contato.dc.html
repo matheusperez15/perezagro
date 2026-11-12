@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<section id="contato" style="background:#16291F;color:#F7F3EA;font-family:Inter,system-ui,sans-serif">
+  <div style="max-width:1240px;margin:0 auto;padding:96px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:56px;align-items:start">
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <span style="font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:#D9A92E;font-weight:500">Contato</span>
+      <h2 style="margin:0;font-family:Fraunces,Georgia,serif;font-weight:500;font-size:clamp(32px,4vw,46px);line-height:1.1;color:#F7F3EA;text-wrap:balance">{{ titulo }}</h2>
+      <p style="margin:0;font-size:17px;line-height:1.65;color:#D9D3C4;max-width:480px;text-wrap:pretty">Descrevam a situação e a localização do imóvel. Analisamos o caso e enviamos uma proposta com escopo, prazo e honorários.</p>
+      <div style="display:flex;flex-direction:column;gap:0;margin-top:8px;border-top:1px solid rgba(247,243,234,0.16)">
+        <a href="{{ whats }}" target="_blank" rel="noopener" style="display:flex;justify-content:space-between;gap:16px;padding:18px 0;border-bottom:1px solid rgba(247,243,234,0.16);color:#F7F3EA;text-decoration:none" style-hover="color:#D9A92E">
+          <span style="font-size:13px;color:#BFB8A8;min-width:90px">WhatsApp</span><span style="font-size:16px;font-weight:500">(65) 9 9982-6390</span>
+        </a>
+        <a href="mailto:agropericiasmt@gmail.com" style="display:flex;justify-content:space-between;gap:16px;padding:18px 0;border-bottom:1px solid rgba(247,243,234,0.16);color:#F7F3EA;text-decoration:none" style-hover="color:#D9A92E">
+          <span style="font-size:13px;color:#BFB8A8;min-width:90px">E-mail</span><span style="font-size:16px;font-weight:500">agropericiasmt@gmail.com</span>
+        </a>
+        <div style="display:flex;justify-content:space-between;gap:16px;padding:18px 0;border-bottom:1px solid rgba(247,243,234,0.16)">
+          <span style="font-size:13px;color:#BFB8A8;min-width:90px">Atendimento</span><span style="font-size:16px;font-weight:500;text-align:right">Todo o Mato Grosso</span>
+        </div>
+      </div>
+    </div>
+    <div style="background:#F7F3EA;color:#2B2B2B;border-radius:6px;padding:36px;display:flex;flex-direction:column;gap:18px">
+      <sc-if value="{{ enviado }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:14px;padding:24px 0">
+          <span style="width:40px;height:2px;background:#B8860B"></span>
+          <h3 style="margin:0;font-family:Fraunces,Georgia,serif;font-weight:500;font-size:28px;color:#1E3A2F">Conversa aberta no WhatsApp</h3>
+          <p style="margin:0;font-size:16px;line-height:1.6;color:#4A4A4A">Abrimos o WhatsApp com a sua mensagem pronta. Basta tocar em enviar. Se a janela não abriu, use o botão abaixo.</p>
+          <a href="{{ whatsEnviado }}" target="_blank" rel="noopener" style="align-self:flex-start;background:#1E3A2F;color:#F7F3EA;font:500 14px Inter,sans-serif;padding:12px 18px;border-radius:4px;text-decoration:none" style-hover="background:#2B4F3F;color:#F7F3EA">Abrir o WhatsApp</a>
+          <button onClick="{{ novo }}" style="align-self:flex-start;appearance:none;border:1px solid #1E3A2F;background:transparent;color:#1E3A2F;font:500 14px Inter,sans-serif;padding:11px 16px;border-radius:4px;cursor:pointer">Enviar outra mensagem</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{ formulario }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ enviar }}" style="display:flex;flex-direction:column;gap:16px">
+          <span style="font-family:Fraunces,Georgia,serif;font-weight:500;font-size:24px;color:#1E3A2F">Solicitar proposta</span>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:500;color:#1E3A2F">Nome
+            <input required="required" name="nome" style="font:400 16px Inter,sans-serif;padding:13px 14px;border:1px solid #D3CBB8;border-radius:4px;background:#FFFDF8;color:#2B2B2B" style-focus="outline:2px solid #B8860B;outline-offset:0;border-color:#B8860B">
+          </label>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px">
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:500;color:#1E3A2F">Telefone ou WhatsApp
+              <input required="required" name="tel" type="tel" style="font:400 16px Inter,sans-serif;padding:13px 14px;border:1px solid #D3CBB8;border-radius:4px;background:#FFFDF8;color:#2B2B2B" style-focus="outline:2px solid #B8860B;outline-offset:0;border-color:#B8860B">
+            </label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:500;color:#1E3A2F">Município do imóvel
+              <input name="municipio" style="font:400 16px Inter,sans-serif;padding:13px 14px;border:1px solid #D3CBB8;border-radius:4px;background:#FFFDF8;color:#2B2B2B" style-focus="outline:2px solid #B8860B;outline-offset:0;border-color:#B8860B">
+            </label>
+          </div>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:500;color:#1E3A2F">Serviço
+            <select name="servico" defaultValue="{{ servicoPadrao }}" style="font:400 16px Inter,sans-serif;padding:13px 14px;border:1px solid #D3CBB8;border-radius:4px;background:#FFFDF8;color:#2B2B2B">
+              <option value="avaliacao">Avaliação de imóvel rural</option>
+              <option value="geo">Georreferenciamento, CAR ou regularização</option>
+              <option value="itr">Revisão do ITR</option>
+              <option value="judicial">Perícia judicial ou assistência técnica</option>
+              <option value="agronomica">Perícia agronômica ou de safra</option>
+              <option value="outro">Outro assunto</option>
+            </select>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:500;color:#1E3A2F">Mensagem
+            <textarea name="msg" rows="4" style="font:400 16px Inter,sans-serif;padding:13px 14px;border:1px solid #D3CBB8;border-radius:4px;background:#FFFDF8;color:#2B2B2B;resize:vertical" style-focus="outline:2px solid #B8860B;outline-offset:0;border-color:#B8860B"></textarea>
+          </label>
+          <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:4px">
+            <button type="submit" style="appearance:none;border:0;background:#1E3A2F;color:#F7F3EA;font:500 15px Inter,sans-serif;padding:15px 22px;border-radius:4px;cursor:pointer" style-hover="background:#2B4F3F">Enviar pelo WhatsApp</button>
+            <a href="{{ whats }}" target="_blank" rel="noopener" style="display:flex;align-items:center;border:1px solid #1E3A2F;color:#1E3A2F;font:500 15px Inter,sans-serif;padding:14px 20px;border-radius:4px;text-decoration:none" style-hover="background:#EFE9DC">Só conversar</a>
+          </div>
+        </form>
+      </sc-if>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:760},&quot;servico&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;avaliacao&quot;,&quot;geo&quot;,&quot;judicial&quot;,&quot;agronomica&quot;],&quot;default&quot;:&quot;avaliacao&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;titulo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Vamos conversar sobre o seu imóvel&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { enviado: false, link: '' };
+  renderVals() {
+    const msgs = {
+      avaliacao: 'Olá, gostaríamos de um orçamento para avaliação de imóvel rural.',
+      geo: 'Olá, gostaríamos de um orçamento para georreferenciamento e regularização do imóvel.',
+      judicial: 'Olá, gostaríamos de falar sobre uma perícia judicial.',
+      agronomica: 'Olá, gostaríamos de um orçamento para perícia agronômica.',
+    };
+    const s = this.props.servico ?? 'avaliacao';
+    return {
+      titulo: this.props.titulo ?? 'Vamos conversar sobre o seu imóvel',
+      servicoPadrao: s,
+      enviado: this.state.enviado,
+      formulario: !this.state.enviado,
+      whatsEnviado: this.state.link,
+      enviar: (e) => {
+        e.preventDefault();
+        const f = new FormData(e.currentTarget);
+        const nomes = { avaliacao: 'Avaliação de imóvel rural', geo: 'Georreferenciamento, CAR ou regularização', itr: 'Revisão do ITR', judicial: 'Perícia judicial ou assistência técnica', agronomica: 'Perícia agronômica ou de safra', outro: 'Outro assunto' };
+        const v = (k) => String(f.get(k) || '').trim();
+        const linhas = ['Olá, gostaríamos de solicitar uma proposta.', '', 'Nome: ' + v('nome'), 'Telefone: ' + v('tel')];
+        if (v('municipio')) linhas.push('Município do imóvel: ' + v('municipio'));
+        linhas.push('Serviço: ' + (nomes[v('servico')] || v('servico')));
+        if (v('msg')) linhas.push('', v('msg'));
+        const link = 'https://wa.me/5565999826390?text=' + encodeURIComponent(linhas.join('\n'));
+        window.open(link, '_blank', 'noopener');
+        this.setState({ enviado: true, link });
+      },
+      novo: () => this.setState({ enviado: false }),
+      whats: 'https://wa.me/5565999826390?text=' + encodeURIComponent(msgs[s] || 'Olá, gostaríamos de um orçamento.'),
+    };
+  }
+}
+</script>
+</body>
+</html>
